@@ -7,9 +7,10 @@ package com.microsoft.fluentuidemo
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import com.microsoft.fluentui.util.DuoSupportUtils
 import kotlinx.android.synthetic.main.activity_demo_detail.*
 import java.util.*
 
@@ -33,11 +34,18 @@ abstract class DemoActivity : AppCompatActivity() {
 
         // Set demo title
         val demoID = intent.getSerializableExtra(DEMO_ID) as UUID
-        val demo = DEMOS.find { it.id == demoID }
-        title = demo?.title
+        var demo: Demo?
+        if (DuoSupportUtils.isDualScreenMode(this)) {
+            demo = DUO_DEMOS.find { it.id == demoID }
+        } else {
+            demo = DEMOS.find { it.id == demoID }
+        }
+        if (demo != null)
+            title = demo.title
 
         // Load content and place it in the requested container
-        val container = if (contentNeedsScrollableContainer) demo_detail_scrollable_container else demo_detail_container
+        val container =
+            if (contentNeedsScrollableContainer) demo_detail_scrollable_container else demo_detail_container
         layoutInflater.inflate(contentLayoutId, container, true)
     }
 

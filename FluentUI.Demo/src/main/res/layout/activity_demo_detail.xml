@@ -4,7 +4,7 @@
   ~ Licensed under the MIT License.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,12 +18,13 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:scrollBehavior="pin" />
+        app:fluentui_scrollBehavior="pin" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/demo_detail_scrollable_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <LinearLayout
@@ -33,4 +34,4 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

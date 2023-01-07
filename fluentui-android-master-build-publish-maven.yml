@@ -1,12 +1,18 @@
 pool:
   vmImage: 'macos-latest'
 
+variables:
+  - name: BUILDSECMON_OPT_IN
+    value: true
+
 steps:
 - task: Gradle@2
   displayName: 'gradlew build publish'
   inputs:
     gradleWrapperFile: 'gradlew'
     tasks: 'build publish'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
     options: '-PappCenterSecret=$(appCenterSecret) -PsigningKeyPassword=$(signingKeyPassword) -PsigningKeyStorePassword=$(signingKeyStorePassword) -PmavenUserName=$(vstsUserName) -PmavenPassword=$(vstsPassword)'
 
 - task: AndroidSigning@2
@@ -24,6 +30,11 @@ steps:
      **/*.aar
     TargetFolder: '$(build.artifactstagingdirectory)'
 
+- task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+  displayName: 📒 Generate Manifest
+  inputs:
+    BuildDropPath: '$(build.artifactstagingdirectory)'
+    
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Build'
   inputs:

@@ -34,6 +34,7 @@ class PopupMenuActivity : DemoActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         no_check.setOnClickListener(this)
+        no_check2.setOnClickListener(this)
         single_check.setOnClickListener(this)
         all_check.setOnClickListener(this)
 
@@ -43,16 +44,17 @@ class PopupMenuActivity : DemoActivity(), View.OnClickListener {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState?.putInt(SINGLE_CHECKED_ITEM_ID, singleCheckedItemId)
-        outState?.putParcelableArrayList(ALL_CHECKED_ITEMS, allCheckedItems)
+        outState.putInt(SINGLE_CHECKED_ITEM_ID, singleCheckedItemId)
+        outState.putParcelableArrayList(ALL_CHECKED_ITEMS, allCheckedItems)
     }
 
     override fun onClick(anchorView: View) {
         when (anchorView) {
             no_check -> showPopupNoCheck(anchorView)
+            no_check2 -> showPopupNoCheck(anchorView)
             single_check -> showPopupSingleCheck(anchorView)
             all_check -> showPopupAllCheck(anchorView)
         }
@@ -64,7 +66,8 @@ class PopupMenuActivity : DemoActivity(), View.OnClickListener {
             PopupMenuItem(R.id.popup_menu_item_follow, getString(R.string.popup_menu_item_follow)),
             PopupMenuItem(R.id.popup_menu_item_invite_people, getString(R.string.popup_menu_item_invite_people)),
             PopupMenuItem(R.id.popup_menu_item_refresh_page, getString(R.string.popup_menu_item_refresh_page)),
-            PopupMenuItem(R.id.popup_menu_item_open_in_browser, getString(R.string.popup_menu_item_open_in_browser))
+            PopupMenuItem(R.id.popup_menu_item_open_in_browser, getString(R.string.popup_menu_item_open_in_browser)),
+            PopupMenuItem(R.id.popup_menu_item_multiline, getString(R.string.popup_menu_item_multiline))
         )
 
         val onPopupMenuItemClickListener = object : PopupMenuItem.OnClickListener {

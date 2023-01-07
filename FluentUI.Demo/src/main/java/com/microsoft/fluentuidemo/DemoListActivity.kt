@@ -8,17 +8,20 @@ package com.microsoft.fluentuidemo
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.microsoft.fluentui.listitem.ListItemDivider
 import com.microsoft.fluentui.listitem.ListItemView
 import com.microsoft.fluentui.search.Searchbar
+import com.microsoft.fluentui.util.DuoSupportUtils
 import kotlinx.android.synthetic.main.activity_demo_list.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * This activity presents a list of [Demo]s, which when touched,
@@ -26,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_demo_list.*
  */
 class DemoListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var searchbar: Searchbar
+    var dualScreenMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Launch Screen: Setting the theme here removes the launch screen, which was added to this activity
@@ -33,6 +37,7 @@ class DemoListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setTheme(R.style.AppTheme)
 
         super.onCreate(savedInstanceState)
+        dualScreenMode = DuoSupportUtils.isDualScreenMode(this)
 
         setContentView(R.layout.activity_demo_list)
 
@@ -57,8 +62,9 @@ class DemoListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String): Boolean {
-        val userInput = query.toLowerCase()
-        val filteredDemoList = DEMOS.filter { it.title.toLowerCase().contains(userInput) }
+        val userInput = query.lowercase(Locale.getDefault())
+        val demoList: ArrayList<Demo> = if (dualScreenMode) DUO_DEMOS else DEMOS
+        val filteredDemoList = demoList.filter { it.title.lowercase(Locale.getDefault()).contains(userInput) }
 
         searchbar.showSearchProgress = true
 
@@ -66,17 +72,15 @@ class DemoListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             (demo_list.adapter as DemoListAdapter).demos = filteredDemoList as ArrayList<Demo>
             searchbar.showSearchProgress = false
         }, 500)
-
         return true
     }
 
-    private class DemoListAdapter : RecyclerView.Adapter<DemoListAdapter.ViewHolder>() {
-        var demos = DEMOS
+    private inner class DemoListAdapter : RecyclerView.Adapter<DemoListAdapter.ViewHolder>() {
+        var demos = if (dualScreenMode) DUO_DEMOS else DEMOS
             set(value) {
                 field = value
                 notifyDataSetChanged()
             }
-
         private val onClickListener = View.OnClickListener { view ->
             val demo = view.tag as Demo
             val intent = Intent(view.context, demo.demoClass.java)
@@ -88,7 +92,10 @@ class DemoListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val listItemView = ListItemView(parent.context)
-            listItemView.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            listItemView.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
             return ViewHolder(listItemView)
         }
 
@@ -101,7 +108,7 @@ class DemoListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         }
 
-        private class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val listItem: ListItemView = view as ListItemView
         }
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Snackbar-->
+    <attr name="fluentuiSnackbarBackgroundColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarBackgroundAnnouncementColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarBackgroundPrimaryColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarBackgroundLightColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarBackgroundWarningColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarBackgroundDangerColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarTextColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarTextAnnouncementColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarTextPrimaryColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarTextLightColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarTextWarningColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarTextDangerColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarActionTextColor" format="reference|color"/>
+    <attr name="fluentuiSnackbarActionTextAnnouncementColor" format="reference|color"/>
+
+    <!--Tooltip-->
+    <attr name="fluentuiTooltipBackgroundColor" format="reference|color"/>
+    <attr name="fluentuiTooltipTextColor" format="reference|color"/>
+
+</resources>

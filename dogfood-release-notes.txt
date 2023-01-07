@@ -1,0 +1,8 @@
+Release Version 0.1.14:
+
+What's New:
+
+Fluent V2 :
+	Fix:  bump-up version for fluentui_listItem to release aars out of build system.
+ 
+
